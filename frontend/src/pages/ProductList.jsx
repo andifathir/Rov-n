@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { SimpleGrid, Box, Spinner, Text } from "@chakra-ui/react";
 import Banner from "@/components/ProductList/Banner";
 import PerfumeCard from "@/components/ProductList/PerfumeCard"; // Import the PerfumeCard component
