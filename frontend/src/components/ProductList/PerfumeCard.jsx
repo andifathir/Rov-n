@@ -3,6 +3,9 @@ import { Box, Image, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
 function PerfumeCard({ name, image }) {
+  // Construct the full image URL for the product image
+  const imageUrl = image;
+
   return (
     <Box
       bg="white"
@@ -15,9 +18,11 @@ function PerfumeCard({ name, image }) {
       mx={"auto"}
       h={"400px"}
     >
+      {/* Image component */}
       <Image
-        src={image}
+        src={imageUrl}
         alt={name}
+        onError={(e) => (e.target.src = '/images/fallback.jpg')}  // Use fallback image on error
         w="full"
         h="250px"
         objectFit="cover"
@@ -31,8 +36,8 @@ function PerfumeCard({ name, image }) {
 }
 
 PerfumeCard.propTypes = {
-  name: PropTypes.string.isRequired, // `name` should be a required string
-  image: PropTypes.string.isRequired, // `image` should be a required string
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default PerfumeCard;
