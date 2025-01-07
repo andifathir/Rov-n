@@ -36,6 +36,7 @@ function ProductList() {
           {products.map((product) => (
             <PerfumeCard
               key={product.product_id} // Use a unique key from the API data
+              productId={product.product_id}
               name={product.name}
               image={product.image_url} // Adjust to match the API response field
               price={product.price} // Adjust to match the API response field

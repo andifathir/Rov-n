@@ -2,21 +2,37 @@ import { create } from "zustand";
 
 export const useStore = create((set) => ({
   products: [],
+  selectedProduct: null, // Add selectedProduct to store
   isLoading: false,
   error: null,
+
   fetchProducts: async () => {
     set({ isLoading: true });
     try {
       const response = await fetch("api/products"); // Adjust API URL if needed
       if (response.ok) {
         const data = await response.json();
-        console.log(data); // Optional: To debug and check the structure of the data
-        set({ products: data.data.data, isLoading: false }); // Access the correct data path
+        set({ products: data.data.data, isLoading: false });
       } else {
         throw new Error("Failed to fetch products");
       }
     } catch (error) {
       set({ error: error.message, isLoading: false });
+    }
+  },
+
+  fetchProductDetails: async (productId) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch(`/api/products/${productId}`);
+      const product = await response.json();
+      if (product.status === "success") {
+        set({ selectedProduct: product.data, isLoading: false }); // Access data property
+      } else {
+        set({ error: "Product not found", isLoading: false });
+      }
+    } catch (error) {
+      set({ error: "Failed to fetch product", isLoading: false });
     }
   },
 }));
