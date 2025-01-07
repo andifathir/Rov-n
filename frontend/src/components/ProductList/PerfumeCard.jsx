@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Image, Text, Button } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
