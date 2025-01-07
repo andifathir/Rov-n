@@ -7,7 +7,7 @@ export const useStore = create((set) => ({
   fetchReviews: async () => {
     set({ isLoading: true });
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/reviews'); // Replace with your actual Laravel API endpoint
+      const response = await fetch('api/reviews'); // Replace with your actual Laravel API endpoint
       if (response.ok) {
         const data = await response.json();
         set({ reviews: data, isLoading: false });
@@ -21,7 +21,7 @@ export const useStore = create((set) => ({
 
   addReview: async (review) => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/reviews', {
+      const response = await fetch('api/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const useStore = create((set) => ({
 
   updateReview: async (reviewId, updatedReview) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/reviews/${reviewId}`, {
+      const response = await fetch(`api/reviews/${reviewId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export const useStore = create((set) => ({
 
   deleteReview: async (reviewId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/reviews/${reviewId}`, {
+      const response = await fetch(`api/reviews/${reviewId}`, {
         method: 'DELETE',
       });
       if (response.ok) {
