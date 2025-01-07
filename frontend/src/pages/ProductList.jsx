@@ -38,6 +38,8 @@ function ProductList() {
               key={product.product_id} // Use a unique key from the API data
               name={product.name}
               image={product.image_url} // Adjust to match the API response field
+              price={product.price} // Adjust to match the API response field
+              description={product.description} // Adjust to match the API response field
             />
           ))}
         </SimpleGrid>
