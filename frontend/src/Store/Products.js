@@ -27,7 +27,12 @@ export const useStore = create((set) => ({
       const response = await fetch(`/api/products/${productId}`);
       const product = await response.json();
       if (product.status === "success") {
-        set({ selectedProduct: product.data, isLoading: false }); // Access data property
+        // Add the base URL to the image_url
+        const productData = {
+          ...product.data,
+          image: product.data.image_url, // Replace with your actual base URL
+        };
+        set({ selectedProduct: productData, isLoading: false });
       } else {
         set({ error: "Product not found", isLoading: false });
       }

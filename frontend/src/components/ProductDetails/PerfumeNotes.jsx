@@ -61,7 +61,13 @@ function PerfumeNotes() {
             <Heading as="h3" size="md" fontWeight="semibold" mb={4}>
               Fragrance Notes
             </Heading>
-            <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+            <Grid
+              templateColumns={{
+                base: "repeat(auto-fit, minmax(100px, 1fr))",
+                md: "repeat(4, 1fr)",
+              }}
+              gap={6}
+            >
               {notes.map((note) => (
                 <GridItem key={note.name} textAlign="center">
                   <Center
