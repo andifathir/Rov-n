@@ -1,17 +1,19 @@
-import ReviewShowcase from "@/components/Home/ReviewShowcase"
+
+import CreateReview from "@/components/ProductDetails/CreateReview"
 import PerfumeNotes from "@/components/ProductDetails/PerfumeNotes"
 import PerfumeOverview from "@/components/ProductDetails/PerfumeOverview"
-import PerfumeSuggestion from "@/components/ProductDetails/PerfumeSuggestion"
-import { Box } from "@chakra-ui/react"
 
+import { Box } from "@chakra-ui/react"
+import { Fragment } from "react"
 
 function PerfumeDetails() {
   return (
     <Box pt={{ base: "4rem", md: "6rem" }} px={4}>
-      <PerfumeOverview />
-      <PerfumeNotes />
-      {/* <PerfumeSuggestion /> */}
-      {/* <ReviewShowcase /> */}
+      <Fragment>
+        <PerfumeOverview />
+        <PerfumeNotes />
+        <CreateReview />
+      </Fragment>
     </Box>
   )
 }
