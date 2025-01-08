@@ -91,7 +91,7 @@ function Navbar({ onSearch }) {
           <Text
             fontWeight="bold"
             color={textColor}
-            onClick={() => handleNavigation("/login")}
+            onClick={() => handleNavigation("/perfume-list")}
             _hover={{ cursor: "pointer" }}
           >
             Product
