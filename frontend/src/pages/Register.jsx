@@ -10,7 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Background from "../assets/BG Login.jpg"; // Gantilah dengan jalur gambar yang sesuai
+import Background from "../assets/BG Login.jpg"; 
+import { useStore } from "../Store/Account"; // Assuming you have a zustand store
 
 function Register() {
   const {
@@ -20,8 +21,12 @@ function Register() {
   } = useForm();
 
   const navigate = useNavigate();
+  const { registerAccount, isLoading, error } = useStore();
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    const { name, email, password } = data;
+    registerAccount(name, email, password);
+  });
 
   return (
     <Box overflow="hidden" height="100vh" width="100vw">
@@ -68,30 +73,28 @@ function Register() {
             <Text
               mb={1}
               fontSize="sm"
-              fontWeight="bold" // Make label bold
-              color={errors.firstName ? "red.500" : "white"}
+              fontWeight="bold"
+              color={errors.name ? "red.500" : "white"}
             >
-              First name
+              Full name
             </Text>
             <Input
-              {...register("firstName", {
-                required: "First name is required",
-              })}
-              placeholder="First name"
+              {...register("name", { required: "Name is required" })}
+              placeholder="Full name"
               size="md"
               borderColor="white"
               _focus={{ borderColor: "white", color: "white" }}
               _hover={{ borderColor: "white", color: "white" }}
-              isInvalid={errors.firstName}
+              isInvalid={errors.name}
               sx={{
-                color: "white", // Make text color white by default
+                color: "white",
                 "::placeholder": {
-                  color: "white", // Placeholder color
+                  color: "white",
                 },
               }}
             />
             <Text mt={1} fontSize="xs" color="red.500">
-              {errors.firstName?.message}
+              {errors.name?.message}
             </Text>
           </Box>
 
@@ -99,36 +102,7 @@ function Register() {
             <Text
               mb={1}
               fontSize="sm"
-              fontWeight="bold" // Make label bold
-              color={errors.lastName ? "red.500" : "white"}
-            >
-              Last name
-            </Text>
-            <Input
-              {...register("lastName", { required: "Last name is required" })}
-              placeholder="Last name"
-              size="md"
-              borderColor="white"
-              _focus={{ borderColor: "white", color: "white" }}
-              _hover={{ borderColor: "white", color: "white" }}
-              isInvalid={errors.lastName}
-              sx={{
-                color: "white", // Make text color white by default
-                "::placeholder": {
-                  color: "white", // Placeholder color
-                },
-              }}
-            />
-            <Text mt={1} fontSize="xs" color="red.500">
-              {errors.lastName?.message}
-            </Text>
-          </Box>
-
-          <Box width="100%">
-            <Text
-              mb={1}
-              fontSize="sm"
-              fontWeight="bold" // Make label bold
+              fontWeight="bold"
               color={errors.email ? "red.500" : "white"}
             >
               Email
@@ -142,9 +116,9 @@ function Register() {
               _hover={{ borderColor: "white", color: "white" }}
               isInvalid={errors.email}
               sx={{
-                color: "white", // Make text color white by default
+                color: "white",
                 "::placeholder": {
-                  color: "white", // Placeholder color
+                  color: "white",
                 },
               }}
             />
@@ -157,7 +131,7 @@ function Register() {
             <Text
               mb={1}
               fontSize="sm"
-              fontWeight="bold" // Make label bold
+              fontWeight="bold"
               color={errors.password ? "red.500" : "white"}
             >
               Password
@@ -172,9 +146,9 @@ function Register() {
               _hover={{ borderColor: "white", color: "white" }}
               isInvalid={errors.password}
               sx={{
-                color: "white", // Make text color white by default
+                color: "white",
                 "::placeholder": {
-                  color: "white", // Placeholder color
+                  color: "white",
                 },
               }}
             />
@@ -188,11 +162,13 @@ function Register() {
             width="100%"
             bg="black"
             color="white"
-            fontWeight="bold" // Make button text bold
+            fontWeight="bold"
             _hover={{ bg: "gray.800", cursor: "pointer" }}
+            isLoading={isLoading}
           >
             CREATE MY ACCOUNT
           </Button>
+
           <Text fontSize="sm" color="white">
             Already have an account?{" "}
             <Link
