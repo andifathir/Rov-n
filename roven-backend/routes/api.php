@@ -19,6 +19,8 @@ Route::resource('products', ProductController::class);
 Route::resource('category', CategoryController::class);
 Route::resource('order', OrderController::class);
 Route::resource('users', UserController::class);
+Route::post('/users/register', [UserController::class, 'createUser']);
+Route::post('/users/login', [UserController::class, 'loginUser']);
 Route::resource('order-items', OrderItemController::class);
 Route::resource('reviews', ReviewController::class);
 Route::resource('wishlists', WishlistController::class);
