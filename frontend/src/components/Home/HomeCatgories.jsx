@@ -13,9 +13,13 @@ import LucidDreams from "../../assets/MASCULIN PERFUME/Perfume 10.jpg";
 import OceanBreeze from "../../assets/MASCULIN PERFUME/Perfume 11.jpg";
 import MidnightNoir from "../../assets/MASCULIN PERFUME/Perfume 18.webp";
 
+import { useNavigate } from "react-router-dom";
+
 function HomeCategories() {
   // Set the default category to "feminine"
   const [category, setCategory] = useState("feminine");
+
+  const navigate = useNavigate();
 
   // Example data structure for products
   const products = {
@@ -86,7 +90,7 @@ function HomeCategories() {
         <Button
           colorScheme="black"
           variant="solid"
-          onClick={() => setCategory(null)}
+          onClick={() => navigate("/perfume-list")}
         >
           VIEW ALL PRODUCTS
         </Button>

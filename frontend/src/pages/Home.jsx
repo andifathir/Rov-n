@@ -1,4 +1,4 @@
-import { Box, Image, Divider } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import Background from "../assets/BG HOME MENU.png";
 import NewBackground from "../assets/PERFUME FEMININ/Perfume 13.jpg";
 import AnotherImage from "../assets/PERFUME FEMININ/Perfume 2.jpg";
@@ -54,8 +54,6 @@ function Home() {
       <HomeCategories />
 
       <HomeCarousel />
-
-      <Divider borderColor="black" my={6} />
 
       <ReviewShowcase />
     </Box>
