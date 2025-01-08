@@ -42,7 +42,8 @@ class ProductController extends Controller
             $imagePath = $request->file('image_url')->storeAs('products', $originalFileName, 'public');
 
             // Buat URL dengan basis 127.0.0.1
-            $imageUrl = 'http://localhost:8000/storage/' . $imagePath;
+            $imageUrl = 'http://127.0.0.1:8000/storage/' . $imagePath;
+            // $imageUrl = 'http://127.0.0.1:8000/storage/' . $imagePath;
         } else {
             $imageUrl = null;
         }

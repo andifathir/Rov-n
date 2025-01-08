@@ -3,11 +3,11 @@ import { Box, Text, HStack, Image, Spinner } from '@chakra-ui/react';
 import { useStore } from '../../Store/Review'; 
 
 const logos = [
-  { src: '/path/to/fimela-logo.png', alt: 'Fimela Logo' },
-  { src: '/path/to/female-daily-logo.png', alt: 'Female Daily Logo' },
-  { src: '/path/to/nova-logo.png', alt: 'Nova Logo' },
-  { src: '/path/to/media-indonesia-logo.png', alt: 'Media Indonesia Logo' },
-  { src: '/path/to/mix-logo.png', alt: 'Mix Logo' }
+  { src: 'https://www.minedot.com/cdn/shop/files/051177200_1621928908-fimela-dekstop-2_300x.png?v=1624785934', alt: 'Fimela Logo' },
+  { src: 'https://www.minedot.com/cdn/shop/files/download_300x.jpg?v=1613558141', alt: 'Female Daily Logo' },
+  { src: 'https://www.minedot.com/cdn/shop/files/nova-logo_300x.png?v=1624785966', alt: 'Nova Logo' },
+  { src: 'https://www.minedot.com/cdn/shop/files/download_d6b68ab5-e3d2-4a06-923d-3064efe1fe8b_300x.png?v=1627359055', alt: 'Media Indonesia Logo' },
+  { src: 'https://www.minedot.com/cdn/shop/files/HalfLogoSWA_300x.png?v=1627359288', alt: 'Mix Logo' }
 ];
 
 const ReviewShowcase = () => {
@@ -45,7 +45,7 @@ const ReviewShowcase = () => {
         </>
       )}
 
-      <HStack justify="center" spacing={8} mt={10}>
+      <HStack justify="center" spacing={8} mt={10} gapX={4}>
         {logos.map((logo, index) => (
           <Image key={index} src={logo.src} alt={logo.alt} maxW="100px" opacity={0.8} />
         ))}

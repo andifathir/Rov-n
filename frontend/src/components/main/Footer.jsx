@@ -6,7 +6,6 @@ import {
   Text,
   VStack,
   Image,
-  Toaster,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";

@@ -1,44 +1,50 @@
-import React from "react";
-import { SimpleGrid, Box } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { SimpleGrid, Box, Spinner, Text } from "@chakra-ui/react";
 import Banner from "@/components/ProductList/Banner";
 import PerfumeCard from "@/components/ProductList/PerfumeCard"; // Import the PerfumeCard component
-
-// Import images
-import Perfume1 from "../assets/PERFUME FEMININ/Perfume 1.jpg";
-import Perfume2 from "../assets/PERFUME FEMININ/Perfume 2.jpg";
-import Perfume3 from "../assets/PERFUME FEMININ/Perfume 3.jpg";
-import Perfume4 from "../assets/PERFUME FEMININ/Perfume 4.jpg";
-import Perfume5 from "../assets/PERFUME FEMININ/Perfume 5.jpg";
-import Perfume6 from "../assets/PERFUME FEMININ/Perfume 8.jpg";
-import Perfume7 from "../assets/PERFUME FEMININ/Perfume 15.jpg";
-
-// Perfume data
-const perfumes = [
-  { name: "Perfume 1", image: Perfume1 },
-  { name: "Perfume 2", image: Perfume2 },
-  { name: "Perfume 3", image: Perfume3 },
-  { name: "Perfume 4", image: Perfume4 },
-  { name: "Perfume 5", image: Perfume5 },
-  { name: "Perfume 6", image: Perfume6 },
-  { name: "Perfume 7", image: Perfume7 },
-];
+import { useStore } from "../Store/Products"; // Import the Zustand store
 
 function ProductList() {
+  const { products, isLoading, error, fetchProducts } = useStore();
+
+  useEffect(() => {
+    fetchProducts(); // Fetch products when the component mounts
+  }, [fetchProducts]);
+
   return (
     <Box>
       {/* Banner Component */}
       <Banner />
 
+      {/* Display loading spinner */}
+      {isLoading && (
+        <Box textAlign="center" mt={10}>
+          <Spinner size="xl" />
+        </Box>
+      )}
+
+      {/* Display error message */}
+      {error && (
+        <Box textAlign="center" mt={10}>
+          <Text color="red.500">{error}</Text>
+        </Box>
+      )}
+
       {/* Perfume Cards */}
-      <SimpleGrid columns={[1, 2, 3, 4]} gapX={2} mt={10} px={2}>
-        {perfumes.map((perfume, index) => (
-          <PerfumeCard 
-            key={index} 
-            name={perfume.name} 
-            image={perfume.image} 
-          />
-        ))}
-      </SimpleGrid>
+      {!isLoading && !error && Array.isArray(products) && (
+        <SimpleGrid columns={[1, 2, 3, 4]} gapX={2} mt={10} px={2}>
+          {products.map((product) => (
+            <PerfumeCard
+              key={product.product_id} // Use a unique key from the API data
+              productId={product.product_id}
+              name={product.name}
+              image={product.image_url} // Adjust to match the API response field
+              price={product.price} // Adjust to match the API response field
+              description={product.description} // Adjust to match the API response field
+            />
+          ))}
+        </SimpleGrid>
+      )}
     </Box>
   );
 }

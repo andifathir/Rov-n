@@ -24,7 +24,7 @@ function App() {
           <Route path="/best-seller" element={<BestSeller />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/perfume-list" element={<ProductList />} />
-          <Route path="/perfume-detail" element={<PerfumeDetails />} />
+          <Route path="/perfume-detail/:productId" element={<PerfumeDetails />} />
         </Routes>
         <Footer />
       </Box>
