@@ -11,29 +11,61 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import useStore from "../Store/Account";
 import Background from "../assets/BG Login.jpg";
-import axios from "../axios"; // Assuming you have axios setup
+import axios from "../axios";
 
 function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
   const { isLoading, error, login } = useStore();
 
   const onSubmit = async (data) => {
     try {
       // Send login request to the backend
-      const response = await axios.post("http://localhost:8000/api/users/login", {
-        email: data.email,
-        password: data.password,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/users/login",
+        {
+          email: data.email,
+          password: data.password,
+        }
+      );
 
       console.log("Login response:", response); // Log response for debugging
 
-      // If login is successful, store the token and user details
+      // If login is successful, get the token
       if (response.data.status === true) {
-        // Assuming you have a function to store the token and email
-        login(response.data.token, { email: data.email });
-        alert("User Logged In successfully!");
-        navigate("/"); // Redirect after successful login
+        const token = response.data.token;
+
+        // Now, fetch the user data using the token
+        const userResponse = await axios.get(
+          "http://localhost:8000/api/users",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("User data response:", userResponse); // Log the user data
+
+        // If the user data is successfully fetched
+        if (userResponse.data.status === "success") {
+          const userData = {
+            name: userResponse.data.data.name || "Default Name", // Fallback to a default name if not available
+            email: data.email,
+          };
+
+          // Store the token and user data in Zustand
+          login(token, userData);
+
+          alert("User Logged In successfully!");
+          navigate("/"); // Redirect after successful login
+        } else {
+          alert("Failed to fetch user data.");
+        }
       } else {
         alert("Login failed. Please try again.");
       }
