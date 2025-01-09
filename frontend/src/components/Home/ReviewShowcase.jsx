@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Box, Text, HStack, Image, Spinner } from '@chakra-ui/react';
+import { Box, Text, HStack, Image } from '@chakra-ui/react';
 import { useStore } from '../../Store/Review'; 
+import { Skeleton, SkeletonText } from '../ui/skeleton';
 
 const logos = [
   { src: 'https://www.minedot.com/cdn/shop/files/051177200_1621928908-fimela-dekstop-2_300x.png?v=1624785934', alt: 'Fimela Logo' },
@@ -25,7 +26,17 @@ const ReviewShowcase = () => {
   }, [fetchReviews, reviews.length]);
 
   if (isLoading) {
-    return <Spinner size="xl" />;
+    return (
+      <Box textAlign="center" py={10} px={5}>
+        <SkeletonText noOfLines={3} spacing="4" />
+        <Skeleton height="20px" mt={4} />
+        <HStack justify="center" spacing={8} mt={10}>
+          {[...Array(5)].map((_, index) => (
+            <Skeleton key={index} height="50px" width="100px" borderRadius="md" />
+          ))}
+        </HStack>
+      </Box>
+    );
   }
 
   if (error) {
@@ -40,7 +51,7 @@ const ReviewShowcase = () => {
             {`'${reviews[currentReviewIndex].comment}'`} {/* Display only the comment */}
           </Text>
           <Text fontSize="md" color="gray.500">
-             {reviews[currentReviewIndex].user.name} {/* Display the user_id */}
+            {reviews[currentReviewIndex].user.name} {/* Display the user_name */}
           </Text>
         </>
       )}

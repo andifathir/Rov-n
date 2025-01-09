@@ -1,49 +1,51 @@
-import React from "react";
-import {
-  Box,
-  Input,
-  Button,
-  Text,
-  VStack,
-  Link,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Input, Button, Text, VStack, Link, Image } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Background from "../assets/BG Login.jpg"; // Gantilah dengan jalur gambar yang sesuai
+import axios from "../axios";  // This axios instance handles CSRF automatically
+import Background from "../assets/BG Login.jpg"; 
+import useStore from "../Store/Account"; // Zustand store
 
 function Register() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const { isLoading, error, token } = useStore();
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  // Form submission handler
+  const onSubmit = handleSubmit(async (data) => {
+    const { name, email, password } = data;
+    try {
+      // Send registration request
+      const response = await axios.post("/users/register", { name, email, password });
+
+      // Optionally handle success response, e.g., store token in localStorage
+      if (response.data.status) {
+        // Store token and user info after successful registration
+        useStore.setState({
+          token: response.data.token,
+          user: { email, name }, // Store user info in Zustand state
+        });
+
+        // Redirect to /login after successful registration
+        navigate("/login");  // Redirect to login page after successful registration
+      } else {
+        alert("Registration failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Registration failed:", err);
+      alert("Registration failed. Please try again.");
+    }
+  });
+
+  // Redirect if token exists (user is logged in)
+  if (token) {
+    navigate("/");  // Redirect to dashboard if token exists
+  }
 
   return (
     <Box overflow="hidden" height="100vh" width="100vw">
-      {/* Background Image Section */}
-      <Box
-        position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        bottom="0"
-        zIndex={-1}
-      >
-        <Image
-          src={Background}
-          alt="Register Background"
-          objectFit="cover"
-          width="100%"
-          height="100%"
-          position="absolute"
-          top="0"
-          left="0"
-        />
+      {/* Background Image */}
+      <Box position="absolute" top="0" left="0" right="0" bottom="0" zIndex={-1}>
+        <Image src={Background} alt="Register Background" objectFit="cover" width="100%" height="100%" position="absolute" top="0" left="0" />
       </Box>
 
       {/* Form Section */}
@@ -57,151 +59,39 @@ function Register() {
         }}
       >
         <VStack mt={8} spacing={4} align="center">
-          <Text fontSize="2xl" fontWeight="bold" color="white">
-            Register
-          </Text>
-          <Text fontSize="sm" color="white">
-            Please fill in the information below:
-          </Text>
+          <Text fontSize="2xl" fontWeight="bold" color="white">Register</Text>
+          <Text fontSize="sm" color="white">Please fill in the information below:</Text>
 
+          {/* Name Input */}
           <Box width="100%">
-            <Text
-              mb={1}
-              fontSize="sm"
-              fontWeight="bold" // Make label bold
-              color={errors.firstName ? "red.500" : "white"}
-            >
-              First name
-            </Text>
-            <Input
-              {...register("firstName", {
-                required: "First name is required",
-              })}
-              placeholder="First name"
-              size="md"
-              borderColor="white"
-              _focus={{ borderColor: "white", color: "white" }}
-              _hover={{ borderColor: "white", color: "white" }}
-              isInvalid={errors.firstName}
-              sx={{
-                color: "white", // Make text color white by default
-                "::placeholder": {
-                  color: "white", // Placeholder color
-                },
-              }}
-            />
-            <Text mt={1} fontSize="xs" color="red.500">
-              {errors.firstName?.message}
-            </Text>
+            <Text mb={1} fontSize="sm" fontWeight="bold" color={errors.name ? "red.500" : "white"}>Full name</Text>
+            <Input {...register("name", { required: "Name is required" })} placeholder="Full name" size="md" borderColor="white" isInvalid={errors.name} />
+            <Text mt={1} fontSize="xs" color="red.500">{errors.name?.message}</Text>
           </Box>
 
+          {/* Email Input */}
           <Box width="100%">
-            <Text
-              mb={1}
-              fontSize="sm"
-              fontWeight="bold" // Make label bold
-              color={errors.lastName ? "red.500" : "white"}
-            >
-              Last name
-            </Text>
-            <Input
-              {...register("lastName", { required: "Last name is required" })}
-              placeholder="Last name"
-              size="md"
-              borderColor="white"
-              _focus={{ borderColor: "white", color: "white" }}
-              _hover={{ borderColor: "white", color: "white" }}
-              isInvalid={errors.lastName}
-              sx={{
-                color: "white", // Make text color white by default
-                "::placeholder": {
-                  color: "white", // Placeholder color
-                },
-              }}
-            />
-            <Text mt={1} fontSize="xs" color="red.500">
-              {errors.lastName?.message}
-            </Text>
+            <Text mb={1} fontSize="sm" fontWeight="bold" color={errors.email ? "red.500" : "white"}>Email</Text>
+            <Input {...register("email", { required: "Email is required" })} placeholder="Email" size="md" borderColor="white" isInvalid={errors.email} />
+            <Text mt={1} fontSize="xs" color="red.500">{errors.email?.message}</Text>
           </Box>
 
+          {/* Password Input */}
           <Box width="100%">
-            <Text
-              mb={1}
-              fontSize="sm"
-              fontWeight="bold" // Make label bold
-              color={errors.email ? "red.500" : "white"}
-            >
-              Email
-            </Text>
-            <Input
-              {...register("email", { required: "Email is required" })}
-              placeholder="Email"
-              size="md"
-              borderColor="white"
-              _focus={{ borderColor: "white", color: "white" }}
-              _hover={{ borderColor: "white", color: "white" }}
-              isInvalid={errors.email}
-              sx={{
-                color: "white", // Make text color white by default
-                "::placeholder": {
-                  color: "white", // Placeholder color
-                },
-              }}
-            />
-            <Text mt={1} fontSize="xs" color="red.500">
-              {errors.email?.message}
-            </Text>
+            <Text mb={1} fontSize="sm" fontWeight="bold" color={errors.password ? "red.500" : "white"}>Password</Text>
+            <Input {...register("password", { required: "Password is required" })} placeholder="Password" type="password" size="md" borderColor="white" isInvalid={errors.password} />
+            <Text mt={1} fontSize="xs" color="red.500">{errors.password?.message}</Text>
           </Box>
 
-          <Box width="100%">
-            <Text
-              mb={1}
-              fontSize="sm"
-              fontWeight="bold" // Make label bold
-              color={errors.password ? "red.500" : "white"}
-            >
-              Password
-            </Text>
-            <Input
-              {...register("password", { required: "Password is required" })}
-              placeholder="Password"
-              type="password"
-              size="md"
-              borderColor="white"
-              _focus={{ borderColor: "white", color: "white" }}
-              _hover={{ borderColor: "white", color: "white" }}
-              isInvalid={errors.password}
-              sx={{
-                color: "white", // Make text color white by default
-                "::placeholder": {
-                  color: "white", // Placeholder color
-                },
-              }}
-            />
-            <Text mt={1} fontSize="xs" color="red.500">
-              {errors.password?.message}
-            </Text>
-          </Box>
+          {/* Submit Button */}
+          <Button type="submit" width="100%" bg="black" color="white" fontWeight="bold" isLoading={isLoading}>CREATE MY ACCOUNT</Button>
 
-          <Button
-            type="submit"
-            width="100%"
-            bg="black"
-            color="white"
-            fontWeight="bold" // Make button text bold
-            _hover={{ bg: "gray.800", cursor: "pointer" }}
-          >
-            CREATE MY ACCOUNT
-          </Button>
+          {/* Error Message */}
+          {error && <Text color="red.500" fontSize="sm" mt={2}>{error}</Text>}
+
           <Text fontSize="sm" color="white">
             Already have an account?{" "}
-            <Link
-              onClick={() => navigate("/login")}
-              _hover={{ textDecoration: "underline", cursor: "pointer" }}
-              color="white"
-            >
-              Login here
-            </Link>
+            <Link onClick={() => navigate("/login")} _hover={{ textDecoration: "underline", cursor: "pointer" }} color="white">Login here</Link>
           </Text>
         </VStack>
       </form>

@@ -14,6 +14,10 @@ import Wishlists from "./pages/Wishlists";
 
 
 
+import Test from "./pages/Test";
+import RegistrationTest from "./pages/RegistrationTest";
+
+
 function App() {
   return (
     <>
@@ -28,6 +32,8 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/wishlists" element={<Wishlists />} />
           <Route path="/perfume-list" element={<ProductList />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/kontol" element={<RegistrationTest />} />
           <Route path="/perfume-detail/:productId" element={<PerfumeDetails />} />
         </Routes>
         <Footer />
