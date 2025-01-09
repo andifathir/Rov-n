@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "../Store/Account"; // Adjust the path as per your project
+import  useStore  from "../Store/Account";
 import Background from "../assets/BG Login.jpg";
 
 function Login() {

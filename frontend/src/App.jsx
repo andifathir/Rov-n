@@ -10,6 +10,8 @@ import BestSeller from "./pages/BestSeller";
 import AboutUs from "./pages/AboutUs";
 import ProductList from "./pages/ProductList";
 import PerfumeDetails from "./pages/PerfumeDetails";
+import Test from "./pages/Test";
+import RegistrationTest from "./pages/RegistrationTest";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/best-seller" element={<BestSeller />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/perfume-list" element={<ProductList />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/kontol" element={<RegistrationTest />} />
           <Route path="/perfume-detail/:productId" element={<PerfumeDetails />} />
         </Routes>
         <Footer />
