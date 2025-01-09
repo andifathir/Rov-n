@@ -100,7 +100,7 @@ function Navbar() {
             backgroundColor="transparent"
             _hover={{ backgroundColor: "transparent" }}
             color={textColor}
-            onClick={() => handleNavigation("/kontol")}
+            onClick={() => handleNavigation("/login")}
           >
             <RiAccountCircle2Line />
           </Button>

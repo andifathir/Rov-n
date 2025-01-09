@@ -9,18 +9,37 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import  useStore  from "../Store/Account";
+import useStore from "../Store/Account";
 import Background from "../assets/BG Login.jpg";
+import axios from "../axios"; // Assuming you have axios setup
 
 function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-  const { loginUser, isLoading, error } = useStore();
+  const { isLoading, error, login } = useStore();
 
   const onSubmit = async (data) => {
-    await loginUser(data.email, data.password);
-    if (!error) {
-      navigate("/");
+    try {
+      // Send login request to the backend
+      const response = await axios.post("http://localhost:8000/api/users/login", {
+        email: data.email,
+        password: data.password,
+      });
+
+      console.log("Login response:", response); // Log response for debugging
+
+      // If login is successful, store the token and user details
+      if (response.data.status === true) {
+        // Assuming you have a function to store the token and email
+        login(response.data.token, { email: data.email });
+        alert("User Logged In successfully!");
+        navigate("/"); // Redirect after successful login
+      } else {
+        alert("Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
     }
   };
 

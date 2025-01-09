@@ -1,33 +1,38 @@
-// src/components/Register.js
-import React from "react";
 import { Box, Input, Button, Text, VStack, Link, Image } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "../axios";  // Import the axios instance you configured
+import axios from "../axios";  // This axios instance handles CSRF automatically
 import Background from "../assets/BG Login.jpg"; 
-import  useStore  from "../Store/Account"; // Zustand store
+import useStore from "../Store/Account"; // Zustand store
 
 function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-  const { registerAccount, isLoading, error, token } = useStore();
+  const { isLoading, error, token } = useStore();
 
   // Form submission handler
   const onSubmit = handleSubmit(async (data) => {
     const { name, email, password } = data;
     try {
-      // First, ensure you get the CSRF cookie
-      await axios.get("/sanctum/csrf-cookie"); // Get CSRF token
-
       // Send registration request
-      const response = await axios.post("/api/users/register", { name, email, password });
+      const response = await axios.post("/users/register", { name, email, password });
 
       // Optionally handle success response, e.g., store token in localStorage
       if (response.data.status) {
-        navigate("/");  // Redirect on successful registration
+        // Store token and user info after successful registration
+        useStore.setState({
+          token: response.data.token,
+          user: { email, name }, // Store user info in Zustand state
+        });
+
+        // Redirect to /login after successful registration
+        navigate("/login");  // Redirect to login page after successful registration
+      } else {
+        alert("Registration failed. Please try again.");
       }
     } catch (err) {
       console.error("Registration failed:", err);
+      alert("Registration failed. Please try again.");
     }
   });
 
