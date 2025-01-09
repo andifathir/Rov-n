@@ -5,6 +5,7 @@ import { RiAccountCircle2Line } from "react-icons/ri";
 import { IoMdSearch } from "react-icons/io";
 import { IoBagOutline } from "react-icons/io5";
 import logo from "../../assets/Logo Roven.png";
+import { RiHeartLine } from "react-icons/ri";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -96,6 +97,14 @@ function Navbar() {
         </HStack>
 
         <HStack spacing={6} alignItems={"center"} ml="auto">
+          <Button
+            backgroundColor="transparent"
+            _hover={{ backgroundColor: "transparent" }}
+            color={textColor}
+            onClick={() => handleNavigation("/wishlists")} // Navigasi ke halaman wishlist
+          >
+            <RiHeartLine />
+          </Button>
           <Button
             backgroundColor="transparent"
             _hover={{ backgroundColor: "transparent" }}

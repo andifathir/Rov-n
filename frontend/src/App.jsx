@@ -10,6 +10,9 @@ import BestSeller from "./pages/BestSeller";
 import AboutUs from "./pages/AboutUs";
 import ProductList from "./pages/ProductList";
 import PerfumeDetails from "./pages/PerfumeDetails";
+import Wishlists from "./pages/Wishlists";
+
+
 
 function App() {
   return (
@@ -23,6 +26,7 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/best-seller" element={<BestSeller />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/wishlists" element={<Wishlists />} />
           <Route path="/perfume-list" element={<ProductList />} />
           <Route path="/perfume-detail/:productId" element={<PerfumeDetails />} />
         </Routes>
