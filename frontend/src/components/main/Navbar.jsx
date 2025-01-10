@@ -5,9 +5,11 @@ import { RiAccountCircle2Line } from "react-icons/ri";
 import { IoMdSearch } from "react-icons/io";
 import { IoBagOutline } from "react-icons/io5";
 import logo from "../../assets/Logo Roven.png";
+import { RiHeartLine } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import useStore from "../../Store/Account"; // Zustand store
 import { PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, PopoverRoot } from "../ui/popover"; // Custom Popover imports
+
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -126,6 +128,24 @@ function Navbar() {
         </HStack>
 
         <HStack spacing={6} alignItems={"center"} ml="auto">
+
+          <Button
+            backgroundColor="transparent"
+            _hover={{ backgroundColor: "transparent" }}
+            color={textColor}
+            onClick={() => handleNavigation("/wishlists")} // Navigasi ke halaman wishlist
+          >
+            <RiHeartLine />
+          </Button>
+          <Button
+            backgroundColor="transparent"
+            _hover={{ backgroundColor: "transparent" }}
+            color={textColor}
+            onClick={() => handleNavigation("/login")}
+          >
+            <RiAccountCircle2Line />
+          </Button>
+
         {token && user ? ( // Ensure that the user is available
   <PopoverRoot>
     <PopoverTrigger asChild>

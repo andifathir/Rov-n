@@ -7,9 +7,9 @@ import {
   VStack,
   HStack,
   Input,
-  Button, // We are using Button instead of IconButton
+  Button,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaMinus, FaPlus } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaMinus, FaPlus, FaHeart } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
 import { useParams } from "react-router-dom";
 import { useStore } from "../../Store/Products"; // Assuming useStore is in this path
@@ -39,6 +39,11 @@ function PerfumeOverview() {
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value, 10);
     if (value > 0) setQuantity(value);
+  };
+
+  const handleAddToWishlist = () => {
+    console.log("Added to Wishlist:", selectedProduct.name);
+    // Add your logic here to handle adding to the wishlist
   };
 
   return (
@@ -77,6 +82,18 @@ function PerfumeOverview() {
         <Box>
           <Text fontSize="2xl" fontWeight="bold" mb={2}>
             {selectedProduct.name} {/* Display product name */}
+            {/* Wishlist Icon */}
+            <Box
+              as="span"
+              ml={2}
+              color="red.500"
+              fontSize="2xl"
+              cursor="pointer"
+              onClick={handleAddToWishlist}
+              _hover={{ color: "red.700" }}
+            >
+              <FaHeart />
+            </Box>
           </Text>
           <Text fontSize="xl" fontWeight="semibold" color="gray.500" mb={4}>
             {selectedProduct.price} {/* Display product price */}
@@ -125,8 +142,12 @@ function PerfumeOverview() {
 
         {/* Add to Cart and Buy Now Buttons */}
         <HStack spacing={4} justify={{ base: "center", md: "flex-start" }}>
-          <Button size="lg" variant="outline" colorScheme="blackAlpha">Add to Cart</Button>
-          <Button size="lg" colorScheme="blackAlpha">Buy It Now</Button>
+          <Button size="lg" variant="outline" colorScheme="blackAlpha">
+            Add to Cart
+          </Button>
+          <Button size="lg" colorScheme="blackAlpha">
+            Buy It Now
+          </Button>
         </HStack>
       </Box>
     </Flex>
