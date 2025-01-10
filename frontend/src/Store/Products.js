@@ -1,4 +1,3 @@
-// Store/Products.js
 import { create } from "zustand";
 
 export const useStore = create((set) => ({
@@ -7,6 +6,7 @@ export const useStore = create((set) => ({
   isLoading: false,
   error: null,
 
+  // Fetch all products
   fetchProducts: async () => {
     set({ isLoading: true });
     try {
@@ -22,13 +22,13 @@ export const useStore = create((set) => ({
     }
   },
 
+  // Fetch details of a single product
   fetchProductDetails: async (productId) => {
     set({ isLoading: true });
     try {
       const response = await fetch(`/api/products/${productId}`);
       const product = await response.json();
       if (product.status === "success") {
-        // Add the base URL to the image_url
         const productData = {
           ...product.data,
           image: product.data.image_url,
@@ -38,8 +38,34 @@ export const useStore = create((set) => ({
         set({ error: "Product not found", isLoading: false });
       }
     } catch (error) {
-      set({ error: "Failed to fetch product", isLoading: false });
+      set({ error: error.message, isLoading: false });
     }
   },
 
+  // Add a new product
+  addProduct: async (newProduct) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch("api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      });
+
+      if (response.ok) {
+        const addedProduct = await response.json();
+        set((state) => ({
+          products: [...state.products, addedProduct.data],
+          isLoading: false,
+        }));
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to add product");
+      }
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+    }
+  },
 }));

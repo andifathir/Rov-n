@@ -1,29 +1,71 @@
-import { Box, Button, Input, Stack } from "@chakra-ui/react";
-import React from "react";
+import {
+  Button,
+  Fieldset,
+  Input,
+  NativeSelectField,
+  NativeSelectRoot,
+  Stack,
+} from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import { Field } from "../ui/field";
+import { useStore } from "../../Store/Category";
 
 function TambahPerfume() {
+  const { categories, isLoading, error, fetchCategories } = useStore();
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
   return (
-    <Stack gap="8" maxW="sm" css={{ "--field-label-width": "96px" }}>
-      <Field orientation="horizontal" label="Category">
-        <Input placeholder="John Doe" flex="1" />
+    <Fieldset.Root size="lg" maxW="md">
+      <Stack>
+        <Fieldset.Legend>Contact details</Fieldset.Legend>
+        <Fieldset.HelperText>
+          Please provide your contact details below.
+        </Fieldset.HelperText>
+      </Stack>
+
+      <Fieldset.Content>
+        <Field label="Nama">
+          <Input name="Nama" />
+        </Field>
+
+        <Field label="Brand">
+          <Input name="Brand" />
+        </Field>
+
+        <Field label="Kategori">
+          <NativeSelectRoot>
+            <NativeSelectField name="Kategori">
+              {!isLoading && categories.length > 0 ? (
+                categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  {isLoading ? "Loading..." : "No categories available"}
+                </option>
+              )}
+            </NativeSelectField>
+          </NativeSelectRoot>
+        </Field>
+      </Fieldset.Content>
+
+      <Field label="Harga">
+        <Input name="Harga" />
       </Field>
-      <Field orientation="horizontal" label="Name">
-        <Input placeholder="me@example.com" flex="1" />
+
+      <Field label="Stok">
+        <Input name="Stok" />
       </Field>
-      <Field orientation="horizontal" label="Brand">
-        <Input placeholder="me@example.com" flex="1" />
-      </Field>
-      <Field orientation="horizontal" label="Description">
-        <Input placeholder="me@example.com" flex="1" />
-      </Field>
-      <Field orientation="horizontal" label="Price">
-        <Input placeholder="me@example.com" flex="1" />
-      </Field>
-      <Field orientation="horizontal" label="Stock">
-        <Input placeholder="me@example.com" flex="1" />
-      </Field>
-    </Stack>
+
+      <Button type="submit" alignSelf="flex-start">
+        Submit
+      </Button>
+    </Fieldset.Root>
   );
 }
 
