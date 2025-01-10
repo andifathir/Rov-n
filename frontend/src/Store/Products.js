@@ -1,3 +1,4 @@
+// Store/Products.js
 import { create } from "zustand";
 
 export const useStore = create((set) => ({
@@ -9,7 +10,7 @@ export const useStore = create((set) => ({
   fetchProducts: async () => {
     set({ isLoading: true });
     try {
-      const response = await fetch("api/products"); // Adjust API URL if needed
+      const response = await fetch("api/products");
       if (response.ok) {
         const data = await response.json();
         set({ products: data.data.data, isLoading: false });
@@ -30,7 +31,7 @@ export const useStore = create((set) => ({
         // Add the base URL to the image_url
         const productData = {
           ...product.data,
-          image: product.data.image_url, // Replace with your actual base URL
+          image: product.data.image_url,
         };
         set({ selectedProduct: productData, isLoading: false });
       } else {

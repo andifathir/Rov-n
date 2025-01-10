@@ -24,7 +24,6 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      // Send login request to the backend
       const response = await axios.post(
         "http://localhost:8000/api/users/login",
         {
@@ -33,13 +32,9 @@ function Login() {
         }
       );
 
-      console.log("Login response:", response); // Log response for debugging
-
-      // If login is successful, get the token
       if (response.data.status === true) {
         const token = response.data.token;
 
-        // Now, fetch the user data using the token
         const userResponse = await axios.get(
           "http://localhost:8000/api/users",
           {
@@ -49,20 +44,17 @@ function Login() {
           }
         );
 
-        console.log("User data response:", userResponse); // Log the user data
-
-        // If the user data is successfully fetched
         if (userResponse.data.status === "success") {
           const userData = {
-            name: userResponse.data.data.name || "Default Name", // Fallback to a default name if not available
+            name: userResponse.data.data.name || "Default Name",
             email: data.email,
+            id: userResponse.data.data.id, // user_id saved here
           };
 
-          // Store the token and user data in Zustand
           login(token, userData);
 
           alert("User Logged In successfully!");
-          navigate("/"); // Redirect after successful login
+          navigate("/");
         } else {
           alert("Failed to fetch user data.");
         }
@@ -70,14 +62,12 @@ function Login() {
         alert("Login failed. Please try again.");
       }
     } catch (error) {
-      console.error("Login error:", error);
       alert("Login failed. Please try again.");
     }
   };
 
   return (
     <Box overflow="hidden" minHeight="100vh">
-      {/* Background Image */}
       <Box
         position="absolute"
         top="0"
@@ -95,7 +85,6 @@ function Login() {
         />
       </Box>
 
-      {/* Login Form */}
       <Box position="relative" zIndex={1} width="100%" height="100%">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -177,7 +166,7 @@ function Login() {
               width="100%"
               bg="black"
               color="white"
-              _hover={{ bg: "gray.800", cursor: "pointer" }}
+              _hover={{ bg: "gray.800" }}
               fontWeight="bold"
               isLoading={isLoading}
             >
