@@ -41,4 +41,5 @@ export const useStore = create((set) => ({
       set({ error: "Failed to fetch product", isLoading: false });
     }
   },
+
 }));
