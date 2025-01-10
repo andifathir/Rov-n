@@ -46,13 +46,30 @@ function PerfumeNotes() {
     },
   ];
 
-  const spotifyEmbedLink =
-    "https://open.spotify.com/embed/track/3Jl2LQmRwbXEF2lO1RTvxn";
+  // Array of 10 Spotify song links
+  const spotifySongs = [
+    "https://open.spotify.com/embed/track/3nxaPqAOxUxkLhIhbvmv4t?si=2f640add89154a59",
+    "https://open.spotify.com/embed/track/7elGa98KXTWCCkvbHVjMs3?si=cc6718f6b73349d0",
+    "https://open.spotify.com/embed/track/0CJuLeZpCdqrqoCMXWZw8k?si=0157b70a50ac4305",
+    "https://open.spotify.com/embed/track/3A0bGJ87nJ1elwT8tRNX86?si=299f1924bd6d42a5",
+    "https://open.spotify.com/embed/track/04LRM5cbSULmfwzwQXg7Mu?si=38315bb8e0e34c87",
+    "https://open.spotify.com/embed/track/3cAEXSlaCIFiIJmTOTEaXk?si=69462a5e9d9146c6",
+    "https://open.spotify.com/embed/track/56YstNT2fL3XXFbMLWYVX8?si=46c27dd38c124941",
+    "https://open.spotify.com/embed/track/5K8BwPXLN7rdlYsPHFXrY3?si=243195f89d19404d",
+    "https://open.spotify.com/embed/track/2SAnYRg5p9qlUmINe9TCIH?si=32ca644252a445da",
+    "https://open.spotify.com/embed/track/4mQXTFLyDas9ycbnbiksGu?si=77a81ba08b374dad",
+  ];
+
+  // Function to get a random song link
+  const getRandomSong = () => {
+    const randomIndex = Math.floor(Math.random() * spotifySongs.length);
+    return spotifySongs[randomIndex];
+  };
 
   return (
-    <Box bg="#fdf1e5" minH="100vh" py={10}>
+    <Box bg="#fdf1e5" py={10}>
       <Container maxW="container.xl">
-        <Flex gap={10} direction={{ base: "column", lg: "row" }}>
+        <Flex gap={10} direction={{ base: "column", lg: "row" }} align="flex-start">
           {/* Left Section: Fragrance Notes */}
           <Box flex="1">
             <Heading as="h2" size="lg" fontWeight="bold" mb={6}>
@@ -67,6 +84,7 @@ function PerfumeNotes() {
                 md: "repeat(4, 1fr)",
               }}
               gap={6}
+              mb={6}  // Limit vertical space between grid and text
             >
               {notes.map((note) => (
                 <GridItem key={note.name} textAlign="center">
@@ -110,7 +128,7 @@ function PerfumeNotes() {
                 signature scent.
               </Text>
             </Box>
-            <Box>
+            <Box mb={8}>
               <Heading as="h4" size="sm" fontWeight="semibold" mb={2}>
                 The Tune
               </Heading>
@@ -121,7 +139,7 @@ function PerfumeNotes() {
               </Text>
               <Box
                 as="iframe"
-                src={spotifyEmbedLink}
+                src={getRandomSong()} // Using the random song function here
                 width="100%"
                 height="80px"
                 frameBorder="0"

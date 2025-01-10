@@ -12,6 +12,7 @@ import ProductList from "./pages/ProductList";
 import PerfumeDetails from "./pages/PerfumeDetails";
 import Test from "./pages/Test";
 import RegistrationTest from "./pages/RegistrationTest";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/test" element={<Test />} />
           <Route path="/kontol" element={<RegistrationTest />} />
           <Route path="/perfume-detail/:productId" element={<PerfumeDetails />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
         <Footer />
       </Box>
