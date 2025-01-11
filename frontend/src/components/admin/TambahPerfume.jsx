@@ -8,9 +8,8 @@ import {
   Grid,
   Box,
   Image,
-  HStack,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Field } from "../ui/field";
 import { HiCamera } from "react-icons/hi";
 import {
@@ -37,7 +36,7 @@ import {
 } from "@/components/ui/dialog";
 
 function TambahPerfume() {
-  const { categories, isLoading, error, fetchCategories } = useCategoryStore(); // Use category store
+  const { categories, isLoading, fetchCategories } = useCategoryStore(); // Use category store
   const { addProduct } = useProductStore(); // Use product store
 
   const [name, setName] = useState("");
@@ -83,7 +82,6 @@ function TambahPerfume() {
         });
 
         const data = await response.json();
-        console.log(data); // Log the data to verify if it contains image_url
 
         if (data.image_url) {
           setImage(data.image_url); // Store the image URL
@@ -223,15 +221,19 @@ function TambahPerfume() {
                           description: newCategoryDescription,
                         };
 
-                        // Call the zustand store's addCategory function
-                        await useCategoryStore
-                          .getState()
-                          .addCategory(newCategory);
+                        // Use the correct store to call addCategory method
+                        const addCategory =
+                          useCategoryStore.getState().addCategory;
 
-                        // Optionally, reset the form or close the dialog after submission
-                        setNewCategoryName(""); // Reset the category name
-                        setNewCategoryDescription(""); // Reset the description
-                        // Optionally close the dialog (add the logic to close)
+                        // Call the addCategory method from the store
+                        await addCategory(newCategory);
+
+                        // Re-fetch categories to update the state
+                        fetchCategories();
+
+                        // Reset form fields after saving
+                        setNewCategoryName("");
+                        setNewCategoryDescription("");
                       }}
                     >
                       Save
