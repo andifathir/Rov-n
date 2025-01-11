@@ -1,73 +1,58 @@
-import React, { useState } from "react";
-import { Input, Button, Box } from "@chakra-ui/react"; // Chakra UI components
-import { Field } from "@/components/ui/field"; // Import Field from your custom component
-import axios from "../axios"; // import axios instance
-import useStore from "../Store/Account"; // Correct import for the store
+import { Button, Input, Stack } from "@chakra-ui/react";
+import {
+  DialogActionTrigger,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogRoot,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Field } from "@/components/ui/field";
+import { HStack } from "@chakra-ui/react";
 
 const Test = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login } = useStore(); // Using useStore for state management
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:8000/api/users/login", {
-        email,
-        password,
-      });
-
-      console.log("Login response:", response); // Log the full response here
-
-      if (response.data.status === true) {
-        // Assuming your backend sends a status flag indicating success
-        login(response.data.token, { email });
-        alert("User Logged In successfully!");
-      } else {
-        alert("Login failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Login failed. Please try again.");
-    }
-  };
-
   return (
-    <Box
-      maxWidth="400px"
-      margin="0 auto"
-      padding="4"
-      boxShadow="md"
-      borderRadius="lg"
-      mt={20}
-    >
-      <form onSubmit={handleSubmit}>
-        <Field name="email">
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            marginBottom="4"
-          />
-        </Field>
-
-        <Field name="password">
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            marginBottom="4"
-          />
-        </Field>
-
-        <Button type="submit" colorScheme="teal" width="full">
-          Login
-        </Button>
-      </form>
-    </Box>
+    <HStack wrap="wrap" gap="4">
+      <DialogRoot
+        key="center"
+        placement="center"
+        motionPreset="slide-in-bottom"
+        // Ensure that aria-hidden or inert is not applied directly to the root dialog element.
+      >
+        <DialogTrigger asChild>
+          <Button variant="outline" mt="20">
+            Open Dialog (center)
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Dialog Title</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <Stack gap="4">
+              <Field label="Category Name">
+                <Input placeholder="Enter category name" />
+              </Field>
+              <Field label="Description">
+                <Input placeholder="Enter description" />
+              </Field>
+            </Stack>
+          </DialogBody>
+          <DialogFooter>
+            <DialogActionTrigger asChild>
+              <Button variant="outline" mt="20">
+                Cancel
+              </Button>
+            </DialogActionTrigger>
+            <Button mt="20">Save</Button>
+          </DialogFooter>
+          <DialogCloseTrigger />
+        </DialogContent>
+      </DialogRoot>
+    </HStack>
   );
 };
 

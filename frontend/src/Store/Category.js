@@ -24,4 +24,28 @@ export const useStore = create((set) => ({
       set({ error: error.message, isLoading: false });
     }
   },
+
+  addCategory: async (newCategory) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch("/api/category", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCategory),
+      });
+      if (response.ok) {
+        const addedCategory = await response.json();
+        set((state) => ({
+          categories: [...state.categories, addedCategory.data],
+          isLoading: false,
+        }));
+      } else {
+        throw new Error("Failed to add category");
+      }
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+    }
+  },
 }));
