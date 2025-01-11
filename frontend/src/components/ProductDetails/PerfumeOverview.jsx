@@ -1,3 +1,4 @@
+// PerfumeOverview.jsx
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -12,7 +13,7 @@ import {
 import { FaInstagram, FaTwitter, FaMinus, FaPlus, FaHeart } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
 import { useParams } from "react-router-dom";
-import { useStore } from "../../Store/Products"; // Assuming useStore is in this path
+import { useStore } from "../../Store/Products"; // Make sure the path is correct
 
 function PerfumeOverview() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -81,6 +82,7 @@ function PerfumeOverview() {
       <Box w={{ base: "100%", md: "50%" }} textAlign={{ base: "center", md: "left" }}>
         <Box>
           <Text fontSize="2xl" fontWeight="bold" mb={2}>
+            {selectedProduct.name}
             {selectedProduct.name} {/* Display product name */}
             {/* Wishlist Icon */}
             <Box
@@ -96,10 +98,10 @@ function PerfumeOverview() {
             </Box>
           </Text>
           <Text fontSize="xl" fontWeight="semibold" color="gray.500" mb={4}>
-            {selectedProduct.price} {/* Display product price */}
+            {selectedProduct.price}
           </Text>
           <Text fontSize="md" color="gray.600" mb={4}>
-            {selectedProduct.description} {/* Display product description */}
+            {selectedProduct.description}
           </Text>
 
           {/* Social Media Share Buttons */}
