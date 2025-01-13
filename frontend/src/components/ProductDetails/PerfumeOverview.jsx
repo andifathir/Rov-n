@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { FaInstagram, FaTwitter, FaMinus, FaPlus, FaHeart } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "../../Store/Products"; // Make sure the path is correct
 
 function PerfumeOverview() {
@@ -20,6 +20,7 @@ function PerfumeOverview() {
   const [quantity, setQuantity] = useState(1);
   const { productId } = useParams();
   const { selectedProduct, isLoading, fetchProductDetails, error } = useStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (productId) {
@@ -147,9 +148,14 @@ function PerfumeOverview() {
           <Button size="lg" variant="outline" colorScheme="blackAlpha">
             Add to Cart
           </Button>
-          <Button size="lg" colorScheme="blackAlpha">
-            Buy It Now
-          </Button>
+          <Button
+  size="lg"
+  colorScheme="blackAlpha"
+  onClick={() => navigate("/checkout", { state: { product: selectedProduct, quantity } })}
+>
+  Buy It Now
+</Button>
+
         </HStack>
       </Box>
     </Flex>

@@ -4,19 +4,28 @@ export const useStore = create((set) => ({
   categories: [],
   isLoading: false,
   error: null,
+  currentPage: 1, // Track the current page
+  totalPages: 1,   // Track the total number of pages
 
-  fetchCategories: async () => {
+  fetchCategories: async (page = 1) => {
     set({ isLoading: true });
     try {
-      const response = await fetch("/api/category");
+      const response = await fetch(`/api/category?page=${page}`);
       if (response.ok) {
         const data = await response.json();
-        // Extract categories from response
+        console.log(data);  // Log to inspect the full response structure
+        
+        // Extract categories from data.data
         const categories = data.data.data.map((category) => ({
           id: category.category_id,
           name: category.category_name,
         }));
+  
+        // Set the categories in state
         set({ categories, isLoading: false });
+  
+        // Set pagination data if you want to implement "Next" page fetching
+        set({ pagination: data.data });
       } else {
         throw new Error("Failed to fetch categories");
       }
@@ -24,6 +33,7 @@ export const useStore = create((set) => ({
       set({ error: error.message, isLoading: false });
     }
   },
+  
 
   addCategory: async (newCategory) => {
     set({ isLoading: true });

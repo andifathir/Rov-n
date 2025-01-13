@@ -7,6 +7,7 @@ import { IoBagOutline } from "react-icons/io5";
 import logo from "../../assets/Logo Roven.png";
 import { RiHeartLine } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
+import { RiAdminLine } from "react-icons/ri";
 import useStore from "../../Store/Account"; // Zustand store
 import {
   PopoverArrow,
@@ -194,9 +195,9 @@ function Navbar() {
             backgroundColor="transparent"
             _hover={{ backgroundColor: "transparent" }}
             color={textColor}
-            onClick={() => handleNavigation("/login")}
+            onClick={() => handleNavigation("/admin-dashboard")}
           >
-            <RiAccountCircle2Line />
+            <RiAdminLine />
           </Button>
 
         {token && user ? ( // Ensure that the user is available
