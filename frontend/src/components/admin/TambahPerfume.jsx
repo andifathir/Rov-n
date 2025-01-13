@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/dialog";
 
 function TambahPerfume() {
-  const { categories, isLoading, fetchCategories } = useCategoryStore(); // Use category store
+  const { categories, isLoading, fetchCategories, currentPage, totalPages } = useCategoryStore(); // Use category store
   const { addProduct } = useProductStore(); // Use product store
 
   const [name, setName] = useState("");
@@ -50,10 +50,12 @@ function TambahPerfume() {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryDescription, setNewCategoryDescription] = useState("");
 
+  // Fetch categories when the component mounts
   useEffect(() => {
-    fetchCategories();
+    fetchCategories(1); // Start from page 1
   }, [fetchCategories]);
 
+  // Format number for price
   const formatNumber = (value) => {
     const numericValue = value.replace(/[^\d.]/g, "");
     const parts = numericValue.split(".");
@@ -110,6 +112,15 @@ function TambahPerfume() {
     console.log(newProduct); // Log the newProduct to verify image_url
     await addProduct(newProduct);
   };
+
+  // Load more categories when "Load More" button is clicked
+  const loadMoreCategories = () => {
+    if (currentPage < totalPages && !isLoading) {
+      const nextPage = currentPage + 1; // Move to the next page
+      fetchCategories(nextPage); // Load next page
+    }
+  };
+  
 
   return (
     <Fieldset.Root size="lg" maxW="xl">
@@ -170,6 +181,13 @@ function TambahPerfume() {
                     )}
                   </NativeSelectField>
                 </NativeSelectRoot>
+
+                {/* Button to load more categories */}
+                {currentPage < totalPages && !isLoading && (
+                  <Button onClick={loadMoreCategories} mt={4}>
+                    Load More Categories
+                  </Button>
+                )}
               </Field>
 
               <DialogRoot

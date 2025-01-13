@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 const useStore = create((set) => ({
-  selectedComponent: 'product',
+  selectedComponent: 'tambahProduct',
   setSelectedComponent: (component) => set({ selectedComponent: component }),
 }));
 
