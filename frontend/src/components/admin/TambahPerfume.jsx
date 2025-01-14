@@ -98,20 +98,23 @@ function TambahPerfume() {
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newProduct = {
-      name,
-      description,
-      brand,
-      category_id: category,
-      price: harga,
-      stock: stok,
-      image_url: image, // Ensure image is properly set
-    };
-
-    console.log(newProduct); // Log the newProduct to verify image_url
-    await addProduct(newProduct);
+  
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("brand", brand);
+    formData.append("category_id", category);
+    formData.append("price", harga);
+    formData.append("stock", stok);
+    if (image) formData.append("image", image); // Append the image file
+  
+    try {
+      await addProduct(formData);
+    } catch (error) {
+      console.error("Failed to add product:", error);
+    }
   };
+  
 
   // Load more categories when "Load More" button is clicked
   const loadMoreCategories = () => {
