@@ -10,7 +10,7 @@ export const useStore = create((set) => ({
   fetchProducts: async () => {
     set({ isLoading: true });
     try {
-      const response = await fetch("api/products");
+      const response = await fetch("/api/products");
       if (response.ok) {
         const data = await response.json();
         set({ products: data.data.data, isLoading: false });
