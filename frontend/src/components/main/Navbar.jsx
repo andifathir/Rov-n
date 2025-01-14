@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
-import { Button, Container, Flex, HStack, Image, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Container,
+  Flex,
+  HStack,
+  Image,
+  Text,
+  Input,
+  Box,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { RiAccountCircle2Line } from "react-icons/ri";
 import { IoMdSearch } from "react-icons/io";
@@ -18,12 +27,14 @@ import {
 } from "../ui/popover"; // Custom Popover imports
 
 
-function Navbar() {
+function Navbar({ onSearch }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [userData, setUserData] = useState(null); // To store fetched user data
   const navigate = useNavigate();
   const { token, user, logout } = useStore(); // Access user info and logout from Zustand
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,6 +78,14 @@ function Navbar() {
   const handleNavigation = (path) => {
     navigate(path);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSearchInputChange = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+    if (onSearch) {
+      onSearch(value);
+    }
   };
 
   const textColor = isScrolled || isHovered ? "black" : "white";
@@ -119,7 +138,7 @@ function Navbar() {
           <Text
             fontWeight="bold"
             color={textColor}
-            onClick={() => handleNavigation("/login")}
+            onClick={() => handleNavigation("/perfume-list")}
             _hover={{ cursor: "pointer" }}
           >
             Product
@@ -173,6 +192,19 @@ function Navbar() {
               </PopoverContent>
             </PopoverRoot>
           ) : (
+          <Box position="relative" display="flex" alignItems="center">
+            {searchOpen && (
+              <Input
+                width="200px"
+                backgroundColor="white"
+                borderRadius="md"
+                boxShadow="lg"
+                value={searchText}
+                onChange={handleSearchInputChange}
+                placeholder="Search..."
+                mr={2}
+              />
+            )}
             <Button
               backgroundColor="transparent"
               _hover={{ backgroundColor: "transparent" }}
@@ -239,6 +271,11 @@ function Navbar() {
   </Button>
 )}
 
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
+              <IoMdSearch />
+            </Button>
+          </Box>
 
           <Button
             backgroundColor="transparent"
@@ -246,7 +283,7 @@ function Navbar() {
             color={textColor}
             onClick={() => handleNavigation("/login")}
           >
-            <IoMdSearch />
+            <RiAccountCircle2Line />
           </Button>
 
           <Button
