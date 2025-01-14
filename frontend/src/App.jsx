@@ -10,6 +10,11 @@ import BestSeller from "./pages/BestSeller";
 import AboutUs from "./pages/AboutUs";
 import ProductList from "./pages/ProductList";
 import PerfumeDetails from "./pages/PerfumeDetails";
+import Wishlists from "./pages/Wishlists";
+import Test from "./pages/Test";
+import AdminDashboard from "./pages/AdminDashboard";
+import Checkout from "./pages/Checkout";
+
 
 function App() {
   return (
@@ -23,8 +28,12 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/best-seller" element={<BestSeller />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/wishlists" element={<Wishlists />} />
           <Route path="/perfume-list" element={<ProductList />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/perfume-detail/:productId" element={<PerfumeDetails />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
         <Footer />
       </Box>

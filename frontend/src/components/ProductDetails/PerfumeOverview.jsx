@@ -1,3 +1,4 @@
+// PerfumeOverview.jsx
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -7,18 +8,19 @@ import {
   VStack,
   HStack,
   Input,
-  Button, // We are using Button instead of IconButton
+  Button,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaMinus, FaPlus } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaMinus, FaPlus, FaHeart } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
-import { useParams } from "react-router-dom";
-import { useStore } from "../../Store/Products"; // Assuming useStore is in this path
+import { useNavigate, useParams } from "react-router-dom";
+import { useStore } from "../../Store/Products"; // Make sure the path is correct
 
 function PerfumeOverview() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { productId } = useParams();
   const { selectedProduct, isLoading, fetchProductDetails, error } = useStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (productId) {
@@ -39,6 +41,11 @@ function PerfumeOverview() {
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value, 10);
     if (value > 0) setQuantity(value);
+  };
+
+  const handleAddToWishlist = () => {
+    console.log("Added to Wishlist:", selectedProduct.name);
+    // Add your logic here to handle adding to the wishlist
   };
 
   return (
@@ -76,13 +83,26 @@ function PerfumeOverview() {
       <Box w={{ base: "100%", md: "50%" }} textAlign={{ base: "center", md: "left" }}>
         <Box>
           <Text fontSize="2xl" fontWeight="bold" mb={2}>
+            {selectedProduct.name}
             {selectedProduct.name} {/* Display product name */}
+            {/* Wishlist Icon */}
+            <Box
+              as="span"
+              ml={2}
+              color="red.500"
+              fontSize="2xl"
+              cursor="pointer"
+              onClick={handleAddToWishlist}
+              _hover={{ color: "red.700" }}
+            >
+              <FaHeart />
+            </Box>
           </Text>
           <Text fontSize="xl" fontWeight="semibold" color="gray.500" mb={4}>
-            {selectedProduct.price} {/* Display product price */}
+            {selectedProduct.price}
           </Text>
           <Text fontSize="md" color="gray.600" mb={4}>
-            {selectedProduct.description} {/* Display product description */}
+            {selectedProduct.description}
           </Text>
 
           {/* Social Media Share Buttons */}
@@ -125,8 +145,17 @@ function PerfumeOverview() {
 
         {/* Add to Cart and Buy Now Buttons */}
         <HStack spacing={4} justify={{ base: "center", md: "flex-start" }}>
-          <Button size="lg" variant="outline" colorScheme="blackAlpha">Add to Cart</Button>
-          <Button size="lg" colorScheme="blackAlpha">Buy It Now</Button>
+          <Button size="lg" variant="outline" colorScheme="blackAlpha">
+            Add to Cart
+          </Button>
+          <Button
+  size="lg"
+  colorScheme="blackAlpha"
+  onClick={() => navigate("/checkout", { state: { product: selectedProduct, quantity } })}
+>
+  Buy It Now
+</Button>
+
         </HStack>
       </Box>
     </Flex>
