@@ -133,7 +133,6 @@ function TambahPerfume() {
       alert("An error occurred while adding the product.");
     }
   };
-  
 
   // Load more categories when "Load More" button is clicked
   const loadMoreCategories = () => {
@@ -190,11 +189,13 @@ function TambahPerfume() {
                     required
                   >
                     {!isLoading && categories.length > 0 ? (
-                      categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))
+                      categories
+                        .filter((category) => category && category.id) // Ensure valid entries
+                        .map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.name}
+                          </option>
+                        ))
                     ) : (
                       <option value="" disabled>
                         {isLoading ? "Loading..." : "No categories available"}
