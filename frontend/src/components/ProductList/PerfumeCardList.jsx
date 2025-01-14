@@ -3,11 +3,24 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom"; // Import Link for routing
 import { Skeleton, SkeletonText } from "../ui/skeleton";
 
-function KontolFuad({ productId, name, image, price, description, isLoading }) {
-
+function PerfumeCardList({
+  productId,
+  name,
+  image,
+  price,
+  description,
+  isLoading,
+}) {
   if (isLoading) {
     return (
-      <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" bg="white" shadow="md">
+      <Box
+        maxW="sm"
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        bg="white"
+        shadow="md"
+      >
         {/* Skeleton for Image */}
         <Skeleton height="200px" />
         {/* Card Content */}
@@ -21,7 +34,12 @@ function KontolFuad({ productId, name, image, price, description, isLoading }) {
   }
 
   return (
-    <Link to={`/perfume-detail/${productId}`} style={{ textDecoration: 'none' }}> {/* Wrap the entire card with Link */}
+    <Link
+      to={`/perfume-detail/${productId}`}
+      style={{ textDecoration: "none" }}
+    >
+      {" "}
+      {/* Wrap the entire card with Link */}
       <Box
         maxW="sm"
         borderWidth="1px"
@@ -30,9 +48,9 @@ function KontolFuad({ productId, name, image, price, description, isLoading }) {
         bg="white"
         shadow="md"
         _hover={{
-          transform: "scale(1.05)", 
-          boxShadow: "lg", 
-          transition: "all 0.2s ease-in-out", 
+          transform: "scale(1.05)",
+          boxShadow: "lg",
+          transition: "all 0.2s ease-in-out",
         }}
         cursor="pointer"
       >
@@ -49,7 +67,7 @@ function KontolFuad({ productId, name, image, price, description, isLoading }) {
         {/* Card Content */}
         <Box p="4">
           {/* Product Title */}
-          <Text fontSize="lg" fontWeight="bold" isTruncated>
+          <Text fontSize="lg" fontWeight="bold" isTruncated color="black">
             {name}
           </Text>
 
@@ -68,7 +86,7 @@ function KontolFuad({ productId, name, image, price, description, isLoading }) {
   );
 }
 
-KontolFuad.propTypes = {
+PerfumeCardList.propTypes = {
   productId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
@@ -77,4 +95,4 @@ KontolFuad.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
 
-export default KontolFuad;
+export default PerfumeCardList;

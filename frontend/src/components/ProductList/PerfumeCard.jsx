@@ -22,23 +22,23 @@ function PerfumeCard({ productId, name, image, price, description, isLoading }) 
     await deleteProduct(productId); // Call deleteProduct function
   };
 
-  const handleUpdate = async () => {
-    const formData = new FormData();
-    formData.append('name', productData.name);
-    formData.append('price', productData.price);
-    formData.append('description', productData.description);
-    formData.append('category_id', productData.categoryId);  // Add categoryId if necessary
-    formData.append('stock', productData.stock);  // Add stock if necessary
+  // const handleUpdate = async () => {
+  //   const formData = new FormData();
+  //   formData.append('name', productData.name);
+  //   formData.append('price', productData.price);
+  //   formData.append('description', productData.description);
+  //   formData.append('category_id', productData.categoryId);  // Add categoryId if necessary
+  //   formData.append('stock', productData.stock);  // Add stock if necessary
     
-    // If there's an image file, append it to the form data
-    if (productData.image) {
-      formData.append('image_url', productData.image);
-    }
+  //   // If there's an image file, append it to the form data
+  //   if (productData.image) {
+  //     formData.append('image_url', productData.image);
+  //   }
   
-    // Call the update function and pass the formData to the API
-    await updateProduct(productId, formData);
-    setIsEditing(false); // Hide the form after updating
-  };
+  //   // Call the update function and pass the formData to the API
+  //   await updateProduct(productId, formData);
+  //   setIsEditing(false); // Hide the form after updating
+  // };
 
   if (isLoading) {
     return (
@@ -84,7 +84,7 @@ function PerfumeCard({ productId, name, image, price, description, isLoading }) 
       <Box p="4">
         {/* Product Title */}
         {!isEditing ? (
-          <Text fontSize="lg" fontWeight="bold" isTruncated>
+          <Text fontSize="lg" fontWeight="bold" isTruncated color="black">
             {name}
           </Text>
         ) : (
@@ -149,7 +149,7 @@ function PerfumeCard({ productId, name, image, price, description, isLoading }) 
             Delete
           </Button>
 
-          <Button
+          {/* <Button
             variant="solid"
             colorScheme="blue"
             onClick={() => {
@@ -162,7 +162,7 @@ function PerfumeCard({ productId, name, image, price, description, isLoading }) 
             w="48%"
           >
             {isEditing ? "Save" : "Update"}
-          </Button>
+          </Button> */}
         </Flex>
       </Box>
 
