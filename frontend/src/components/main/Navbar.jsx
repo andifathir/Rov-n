@@ -121,21 +121,31 @@ function Navbar({ onSearch }) {
           onClick={() => handleNavigation("/")}
         />
 
-        <HStack spacing={12} alignItems={"center"} gapX={10}>
-          {["Home", "Product", "Best Seller", "About Us"].map((item, index) => (
-            <Text
-              key={index}
-              fontWeight="bold"
-              color={textColor}
-              onClick={() =>
-                handleNavigation(`/${item.toLowerCase().replace(" ", "-")}`)
-              }
-              _hover={{ cursor: "pointer" }}
-            >
-              {item}
-            </Text>
-          ))}
-        </HStack>
+<HStack spacing={12} alignItems={"center"} gapX={10}>
+  {["Home", "Product", "Best Seller", "About Us"].map((item, index) => {
+    // Define custom routes for specific items
+    const customRoutes = {
+      Home: "/",
+      Product: "/perfume-list",
+    };
+
+    // Fallback to default route format if no custom route is defined
+    const route = customRoutes[item] || `/${item.toLowerCase().replace(" ", "-")}`;
+
+    return (
+      <Text
+        key={index}
+        fontWeight="bold"
+        color={textColor}
+        onClick={() => handleNavigation(route)}
+        _hover={{ cursor: "pointer" }}
+      >
+        {item}
+      </Text>
+    );
+  })}
+</HStack>
+
 
         <HStack spacing={6} alignItems={"center"} ml="auto">
           {token && user ? (
