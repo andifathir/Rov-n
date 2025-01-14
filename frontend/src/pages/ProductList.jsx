@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { SimpleGrid, Box, Text } from "@chakra-ui/react";
 import Banner from "@/components/ProductList/Banner";
-import PerfumeCard from "@/components/ProductList/PerfumeCard"; // Import PerfumeCard
+import KontolFuad from "@/components/ProductList/KontolFuad"; // Import KontolFuad
 import { useStore } from "../Store/Products"; // Import Zustand store
 
 function ProductList() {
@@ -28,10 +28,10 @@ function ProductList() {
         {/* Display Skeleton Cards when Loading */}
         {isLoading
           ? [...Array(4)].map((_, index) => (
-              <PerfumeCard key={index} isLoading={true} />
+              <KontolFuad key={index} isLoading={true} />
             ))
           : products.map((product) => (
-              <PerfumeCard
+              <KontolFuad
                 key={product.product_id} // Use a unique key from the API data
                 productId={product.product_id}
                 name={product.name}
