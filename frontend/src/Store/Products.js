@@ -46,7 +46,7 @@ export const useStore = create((set) => ({
   addProduct: async (newProduct) => {
     set({ isLoading: true });
     try {
-      const response = await fetch("api/products", {
+      const response = await fetch("/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
