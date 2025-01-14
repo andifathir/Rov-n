@@ -133,6 +133,7 @@ function TambahPerfume() {
       alert("An error occurred while adding the product.");
     }
   };
+  
 
   // Load more categories when "Load More" button is clicked
   const loadMoreCategories = () => {

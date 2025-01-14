@@ -43,15 +43,12 @@ export const useStore = create((set) => ({
   },
 
   // Add a new product
-  addProduct: async (newProduct) => {
+  addProduct: async (formData) => {
     set({ isLoading: true });
     try {
       const response = await fetch("/api/products", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
+        body: formData,
       });
 
       if (response.ok) {
@@ -61,8 +58,56 @@ export const useStore = create((set) => ({
           isLoading: false,
         }));
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to add product");
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to add product");
+      }
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+    }
+  },
+
+  updateProduct: async (productId, formData) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch(`/api/products/${productId}`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const updatedProduct = await response.json();
+        set((state) => ({
+          products: state.products.map((product) =>
+            product.product_id === productId ? updatedProduct.data : product
+          ),
+          isLoading: false,
+        }));
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to update product");
+      }
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+    }
+  },
+
+  deleteProduct: async (productId) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch(`/api/products/${productId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        set((state) => ({
+          products: state.products.filter(
+            (product) => product.product_id !== productId
+          ),
+          isLoading: false,
+        }));
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to delete product");
       }
     } catch (error) {
       set({ error: error.message, isLoading: false });
